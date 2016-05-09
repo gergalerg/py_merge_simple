@@ -1,34 +1,39 @@
 import random
 
-LEN = 32 
+LEN = 16 
 l = [random.randint(1,100) for i in range(1,LEN)]
 
 t = list(range(100, 100 - LEN, -1))
 
-def merge(A, p, q, r):
-    n1 = q - p 
-    n2 = r - q
-    L = A[:n1]
-    R = A[n2:]
-    i = 0
-    j = 0
-    for k in range(p, q):
-        if L[i] <= R[i]:
+def merge(A):
+    if len(A) > 1:
+        mid = len(A) // 2
+        L = A[:mid]
+        R = A[mid:]
+        print(A)
+        merge(L)
+        merge(R)
+        i = 0
+        j = 0
+        k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                A[k] = L[i]
+                i += 1
+            else:
+                A[k] = R[j]
+                j += 1
+            k += 1
+
+        while i < len(L):
             A[k] = L[i]
             i += 1
-        else:
+            k += 1
+        while j < len(R):
             A[k] = R[j]
             j += 1
+            k += 1
 
-def merge_sort(A, p = 0, r = LEN-1):
-    if p < r:
-        q = (p + r) // 2
-        merge_sort(A, p, q)
-        merge_sort(A, q+1, r)
-        merge(A, p, q, r)
-    else:
-        pass
+merge(l)
 
-merge_sort(t)
-#merge(t, 0, LEN//2 , LEN)
-print(t)
